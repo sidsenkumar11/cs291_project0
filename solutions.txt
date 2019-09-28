@@ -1,0 +1,30 @@
+1. On average, how many requests can ab complete in 10 seconds with various power of two concurrency levels between 1 and 256?
+
+Level 001: 502
+Level 002: 1009
+Level 004: 2025
+Level 008: 4407
+Level 016: 8852
+Level 032: 17072
+Level 064: 23366
+Level 128: 26143
+Level 256: 24947
+
+2. Why are there diminishing returns at higher concurrency levels?
+
+At higher concurrency levels, the server is being barraged with more and more requests. The server has a limit on how many requests it can handle at any given time, regardless of the number of incoming requests that keep being made. So, we see diminishing numbers of successfully completed requests. Also, it's possible that the client ran out of parallel threads from which it could make concurrent requests, or the client's wireless card/ethernet adapter is limited in how many concurrent requests can be made before it starts serializing them. This would make it appear that the server is responding to fewer requests, when in fact the client is unable to issue any more simultaneously.
+
+3. What’s the difference when requesting HTTP and HTTPS?
+
+An HTTP request is a plaintext request, so anyone sniffing the wire can view the plaintext contents of the request. This includes information such as the request method, parameters, the path, and any authentication information. We prefer HTTPS because it encrypts the request headers and body end-to-end, and also authenticates the recipient of the request.
+
+4. How can github respond so quickly?
+
+GitHub most likely has multiple servers to serve requests from. DNS can be used as a load balancing technique as well; each DNS name resolution could be pointing to different servers that handle each request as more requests come in. On the actual servers that receive the requests, there are further load balancers to prevent one machine from receiving too many requests at once. Finally, since all the webpage content is static, GitHub's servers expend very little computationally to serve the content - there is no real backend processing or backend API requests to make besides simply parsing the path and retrieving the associated file.
+
+5. What is your site’s “Time to Interactive” according to PageSpeed Insights?
+
+On Mobile: 1.1s
+On Desktop: 0.4s
+
+
